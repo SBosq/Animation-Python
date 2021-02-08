@@ -12,7 +12,7 @@ class Application(Frame):
         Frame.__init__(self, parent, bg="thistle3")
         self.v = IntVar(root, 1)
 
-        Label(root, text="""Choose a programming language:""", font="Times 20", justify=LEFT, bg="thistle3", padx=20, pady=20).pack()
+        Label(root, text="""Elija una opcion:""", font="Times 20", justify=LEFT, bg="thistle3", padx=20, pady=20).pack()
 
         Radiobutton(root, text="Punto", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=1, command=self.crear_punto).pack(anchor=W)
 
