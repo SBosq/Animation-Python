@@ -124,11 +124,19 @@ class Application(Frame):
         screen = pygame.display.set_mode((640, 480))
 
         def draw_tree(x, y):
-            pygame.draw.rect(screen, (117, 90, 0), (x+12, y - 100, 25, 100))
-            pygame.draw.circle(screen, (27, 117, 0), (x + 25, y - 120), 50)
+            pygame.draw.rect(screen, (117, 90, 0), (x, y - 100, 25, 100))
+            pygame.draw.circle(screen, (27, 117, 0), (x + 15, y - 120), 50)
+
+        def draw_tree1(x, y):
+            pygame.draw.rect(screen, (117, 90, 0), (x - 70, y - 50, 25, 100))
+            pygame.draw.circle(screen, (33, 143, 0), (x - 60, y - 90), 50)
+
+        def draw_tree2(x, y):
+            pygame.draw.rect(screen, (117, 90, 0), (x - 70, y - 50, 25, 100))
+            pygame.draw.circle(screen, (33, 143, 0), (x - 60, y - 90), 50)
 
         def draw_house(x, y):
-            pygame.draw.rect(screen, (159, 199, 50), (x, y-180, 200, 180))
+            pygame.draw.rect(screen, (227, 157, 18), (x, y-180, 200, 180))
             pygame.draw.rect(screen, (89, 71, 0), (x+80, y-60, 40, 60))
             pygame.draw.circle(screen, (255, 204, 0), (x+112, y-30), 4)
             pygame.draw.polygon(screen, (199, 80, 50), ((x, y - 180), (x + 100, y - 250), (x + 200, y - 180)))
@@ -148,14 +156,22 @@ class Application(Frame):
             pygame.draw.circle(screen, (255, 255, 255), (int(x + size * .5), y), int(size * .6))
             pygame.draw.circle(screen, (255, 255, 255), (x + size, int(y - size * .1)), int(size * .4))
 
+        def draw_sun():
+            pygame.draw.circle(screen, (255, 255, 18), (375, 75), 60)
+
         pygame.draw.rect(screen, (0, 160, 3), (0, 400, 640, 80))
         pygame.draw.rect(screen, (135, 255, 255), (0, 0, 640, 400))
 
         draw_tree(60, 400)
+        draw_tree1(60, 400)
+        draw_tree2(220, 390)
         draw_tree(550, 400)
+        draw_tree1(550, 400)
+        draw_tree2(695, 390)
 
         draw_house(225, 400)
 
+        draw_sun()
         draw_cloud(60, 120, 80)
         draw_cloud(200, 50, 40)
         draw_cloud(450, 100, 120)
