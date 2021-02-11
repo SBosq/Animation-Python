@@ -1,28 +1,37 @@
 from tkinter import *
 import numpy as np
+import pygame
 import matplotlib.pyplot as plt
+from itertools import product, combinations
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from scipy.linalg import norm
 
 
 class Application(Frame):
 
     def __init__(self, parent=0):
         Frame.__init__(self, parent, bg="thistle3")
-        self.v = IntVar(root, 1)
+        self.v = IntVar(root, 0)
 
         Label(root, text="""Elija una opcion:""", font="Times 20", justify=LEFT, bg="thistle3", padx=20, pady=20).pack()
 
-        Radiobutton(root, text="Punto", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=1, command=self.crear_punto).pack(anchor=W)
+        Radiobutton(root, text="Punto", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=1,
+                    command=self.crear_punto).pack(anchor=W)
 
-        Radiobutton(root, text="Linea", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=2, command=self.crear_linea).pack(anchor=W)
+        Radiobutton(root, text="Linea", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=2,
+                    command=self.crear_linea).pack(anchor=W)
 
-        Radiobutton(root, text="Circulo", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=3, command=self.crear_circulo).pack(anchor=W)
+        Radiobutton(root, text="Circulo", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=3,
+                    command=self.crear_circulo).pack(anchor=W)
 
-        Radiobutton(root, text="Poligonos", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=4, command=self.crear_poligono).pack(anchor=W)
+        Radiobutton(root, text="Poligonos", padx=150, font="Times 14 italic", bg="thistle3", variable=self.v, value=4,
+                    command=self.crear_poligono).pack(anchor=W)
 
-        Radiobutton(root, text="Figura Geometrica", font="Times 14 italic", bg="thistle3", padx=150, variable=self.v, value=5, command=self.crear_geometricas).pack(anchor=W)
+        Radiobutton(root, text="Figura Geometrica", font="Times 14 italic", bg="thistle3", padx=150, variable=self.v,
+                    value=5, command=self.crear_geometricas).pack(anchor=W)
+
+        Radiobutton(root, text="Dibujo c:", font="Times 14 italic", bg="thistle3", padx=150, variable=self.v, value=6,
+                    command=self.dibujar).pack(anchor=W)
 
     def crear_linea(self):
         VecStart_x = [0, 1, 3, 5]
@@ -89,47 +98,6 @@ class Application(Frame):
         plt.show()
 
     def crear_geometricas(self):
-        """p0 = np.array([1, 3, 2])
-        p1 = np.array([8, 5, 9])
-        R = 5
-
-        v = p1 - p0
-
-        mag = norm(v)
-
-        v = v / mag
-
-        not_v = np.array([1, 0, 0])
-        if (v == not_v).all():
-            not_v = np.array([0, 1, 0])
-
-        n1 = np.cross(v, not_v)
-
-        n1 /= norm(n1)
-
-
-        n2 = np.cross(v, n1)
-
-        t = np.linspace(0, mag, 2)
-        theta = np.linspace(0, 2 * np.pi, 100)
-        rsample = np.linspace(0, R, 2)
-
-        t, theta2 = np.meshgrid(t, theta)
-
-        rsample, theta = np.meshgrid(rsample, theta)
-
-        X, Y, Z = [p0[i] + v[i] * t + R * np.sin(theta2) * n1[i] + R * np.cos(theta2) * n2[i] for i in [0, 1, 2]]
-
-        X2, Y2, Z2 = [p0[i] + rsample[i] * np.sin(theta) * n1[i] + rsample[i] * np.cos(theta) * n2[i] for i in [0, 1, 2]]
-
-        X3, Y3, Z3 = [p0[i] + v[i] * mag + rsample[i] * np.sin(theta) * n1[i] + rsample[i] * np.cos(theta) * n2[i] for i in [0, 1, 2]]
-
-        ax = plt.subplot(111, projection='3d')
-        ax.plot_surface(X, Y, Z, color='blue')
-        ax.plot_surface(X2, Y2, Z2, color='blue')
-        ax.plot_surface(X3, Y3, Z3, color='blue')
-
-        plt.show()"""
 
         def data_for_cylinder_along_z(center_x, center_y, radius, height_z):
             z = np.linspace(0, height_z, 50)
@@ -148,6 +116,57 @@ class Application(Frame):
         ax.plot_surface(Xc, Yc, Zc, alpha=0.5)
 
         plt.show()
+
+# Nuevo codigo agregado usando libreria de pygame para dibujar una casa usando figuras geometricas basicas
+
+    def dibujar(self):
+        pygame.init()
+        screen = pygame.display.set_mode((640, 480))
+
+        def draw_tree(x, y):
+            pygame.draw.rect(screen, (117, 90, 0), (x+12, y - 100, 25, 100))
+            pygame.draw.circle(screen, (27, 117, 0), (x + 25, y - 120), 50)
+
+        def draw_house(x, y):
+            pygame.draw.rect(screen, (159, 199, 50), (x, y-180, 200, 180))
+            pygame.draw.rect(screen, (89, 71, 0), (x+80, y-60, 40, 60))
+            pygame.draw.circle(screen, (255, 204, 0), (x+112, y-30), 4)
+            pygame.draw.polygon(screen, (199, 80, 50), ((x, y - 180), (x + 100, y - 250), (x + 200, y - 180)))
+            draw_window(x + 20, y - 90)
+            draw_window(x + 130, y - 90)
+            draw_window(x + 20, y - 20)
+            draw_window(x + 130, y - 20)
+
+        def draw_window(x, y):
+            pygame.draw.rect(screen, (255, 244, 128), (x, y-50, 50, 50))
+            pygame.draw.rect(screen, (0, 0, 0), (x, y-50, 50, 50), 5)
+            pygame.draw.rect(screen, (0, 0, 0), (x+23, y-50, 5, 50))
+            pygame.draw.rect(screen, (0, 0, 0), (x, y-27, 50, 5))
+
+        def draw_cloud(x, y, size):
+            pygame.draw.circle(screen, (255, 255, 255), (x, y), int(size * .5))
+            pygame.draw.circle(screen, (255, 255, 255), (int(x + size * .5), y), int(size * .6))
+            pygame.draw.circle(screen, (255, 255, 255), (x + size, int(y - size * .1)), int(size * .4))
+
+        pygame.draw.rect(screen, (0, 160, 3), (0, 400, 640, 80))
+        pygame.draw.rect(screen, (135, 255, 255), (0, 0, 640, 400))
+
+        draw_tree(60, 400)
+        draw_tree(550, 400)
+
+        draw_house(225, 400)
+
+        draw_cloud(60, 120, 80)
+        draw_cloud(200, 50, 40)
+        draw_cloud(450, 100, 120)
+        pygame.display.flip()
+
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+        pygame.quit()
 
 
 root = Tk()
